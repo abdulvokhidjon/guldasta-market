@@ -14,7 +14,7 @@ export const refreshToken = async (token) => {
   } else if (res.status == 403) {
     throw new Error(403);
   } else {
-    throw new Error("Nimadir hatolik bo'ldi");
+    throw new Error("Nimadir xatolik bo'ldi");
   }
 
   console.log(res);
@@ -34,7 +34,7 @@ export const login = async (data) => {
   } else if (res.status === 400) {
     throw new Error("Login yoki Parol hato kiritildi");
   } else {
-    throw new Error("Nimadir hatolik bo'ldi");
+    throw new Error("Nimadir xatolik bo'ldi");
   }
 };
 
@@ -51,6 +51,6 @@ export const getFlowers = async (token) => {
   } else if (res.status == 403) {
     throw new Error(403);
   } else {
-    throw new Error("Nimadir hatolik bo'ldi");
+    throw new Error("Nimadir xatolik bo'ldi");
   }
 };
