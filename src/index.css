@@ -94,12 +94,21 @@
   }
 
   #flowerImage {
-    animation: bloom 2s infinite;
+    animation: bloom 4s ease-in-out infinite;
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  #flowerImage:hover {
+    transform: scale(1.2) rotate(10deg);
   }
 
   @keyframes bloom {
     0% {
       transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
     }
     100% {
       transform: scale(1);

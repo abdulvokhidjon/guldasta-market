@@ -35,13 +35,22 @@ export default function Login() {
     <div className="flex h-full items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="flex w-full max-w-96 flex-col gap-5"
+        className="flex w-full max-w-md flex-col gap-5"
       >
         <div className="flex items-center justify-center gap-3">
-          <h2 className="text-2xl font-bold tracking-wider">Guldasta Market</h2>
-          <img src="flowerImage.avif" id="flowerImage" />
-
+          <h2 className="text-center text-3xl font-bold tracking-wider">
+            Guldasta Market
+          </h2>
+          <div className="relative h-20 w-20 md:h-28 md:w-28">
+            <img
+              src="flowerImage.avif"
+              id="flowerImage"
+              className="h-full w-full rounded-full object-cover"
+              alt="Flower"
+            />
+          </div>
         </div>
+
         <div>
           <Label htmlFor="username">Foydalanuvchining Ismi</Label>
           <Input
