@@ -11,7 +11,7 @@ export default function Navbar() {
     cheker && admin(null);
   }
   return (
-    <div className="flex h-16 items-center shadow-sm">
+    <div className="mt-3 flex h-16 items-center shadow-sm">
       <div className="base-container flex justify-between">
         <NavLink className="text-xl font-bold">Guldasta Market</NavLink>
         <div className="flex items-center gap-3">
