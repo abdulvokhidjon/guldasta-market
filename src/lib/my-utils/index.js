@@ -14,6 +14,8 @@ export const collectItem = (array, item) => {
   return Array.from(new Set(result));
 };
 
-export const BASE_URL = "https://json-api.uz/api/project/floWers";
+export const BASE_URL = "https://json-api.uz/api/project/flowers";
 
 export const periods = ["kun", "oy", "yil"];
+
+export const allowImageSize = 5_242_880;

@@ -14,7 +14,7 @@ export const refreshToken = async (token) => {
   } else if (res.status == 403) {
     throw new Error(403);
   } else {
-    throw new Error("Nimadir xatolik bo'ldi");
+    throw new Error("Nimadir hatolik bo'ldi");
   }
 
   console.log(res);
@@ -34,7 +34,7 @@ export const login = async (data) => {
   } else if (res.status === 400) {
     throw new Error("Login yoki Parol hato kiritildi");
   } else {
-    throw new Error("Nimadir xatolik bo'ldi");
+    throw new Error("Nimadir hatolik bo'ldi");
   }
 };
 
@@ -51,17 +51,23 @@ export const getFlowers = async (token) => {
   } else if (res.status == 403) {
     throw new Error(403);
   } else {
-    throw new Error("Nimadir xatolik bo'ldi");
+    throw new Error("Nimadir hatolik bo'ldi");
   }
 };
 
-export async function uploadImage(image) {
+export const uploadImage = async (image) => {
   const formData = new FormData();
+
   formData.append("file", image);
+
   const res = await fetch(BASE_URL + "/upload", {
     method: "POST",
     body: formData,
   });
-  if (res.status === 200 || res.status === 201) return res.text();
-  else throw new Error("Nimadir xatolik bo'ldi");
-}
+
+  if (res.status === 200 || res.status === 201) {
+    return await res.text();
+  } else {
+    throw new Error("Nimadir hatolik bo'ldi");
+  }
+};

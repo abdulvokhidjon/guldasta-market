@@ -14,6 +14,8 @@ import {
 import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Button } from "../components/ui/button";
 import AddNewItemModal from "../components/AddNewItemModal";
+import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -49,7 +51,7 @@ export default function Home() {
       <div className="base-container">
         <div className="mb-5 flex items-center justify-between border-b py-5">
           <h2 className="h2">Boshqaruv paneli</h2>
-          <Button onClick={setAddItemModal}>
+          <Button disabled={!flowers} onClick={setAddItemModal}>
             Qo'shish
             <PlusIcon className="ml-2" />
           </Button>

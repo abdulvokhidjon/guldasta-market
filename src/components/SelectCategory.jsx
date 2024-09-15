@@ -24,7 +24,7 @@ export default function SelectCategory() {
         <Label onClick={handleFocus} className="ml-2">
           Turkumni tanlang
         </Label>
-        <Select open={open} onOpenChange={setOpen}>
+        <Select name="category" open={open} onOpenChange={setOpen}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Turkumni tanlang" />
           </SelectTrigger>
