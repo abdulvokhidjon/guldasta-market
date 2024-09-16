@@ -45,7 +45,7 @@ export const getFlowers = async (token, { skip, limit, category }) => {
     search.append("category", category);
   }
 
-  const res = await fetch(BASE_URL + "/gullar?" + search, {
+  const res = await fetch(BASE_URL + "/flowers?" + search, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

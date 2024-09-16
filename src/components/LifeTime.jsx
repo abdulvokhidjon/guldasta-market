@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { periods } from "../lib/my-utils";
+// import { periods } from "../lib/my-utils";
 import { Label } from "@/components/ui/label";
 
 export default function LifeTime() {
