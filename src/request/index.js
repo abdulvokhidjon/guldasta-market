@@ -28,19 +28,24 @@ export const login = async (data) => {
     },
     body: JSON.stringify(data),
   });
-  // console.log(res, res.status, await res.json());
 
   if (res.status === 200 || res.status === 201) {
     return await res.json();
   } else if (res.status === 400) {
-    throw new Error("Login yoki Parol xato kiritildi");
+    throw new Error("Login yoki Parol hato kiritildi");
   } else {
     throw new Error("Nimadir hatolik bo'ldi");
   }
 };
 
-export const getFlowers = async (token) => {
-  const res = await fetch(BASE_URL + "/flowers", {
+export const getFlowers = async (token, { skip, limit, category }) => {
+  const search = new URLSearchParams(`skip=${skip}&limit=${limit}`);
+
+  if (category) {
+    search.append("category", category);
+  }
+
+  const res = await fetch(BASE_URL + "/gullar?" + search, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

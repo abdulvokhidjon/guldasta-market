@@ -110,7 +110,7 @@ export default function UploadImage() {
             toast.success("Rasm muvaffaqiyatli yuklandi");
             toast.dismiss();
           }}
-          className="h-52 w-full rounded-xl bg-top object-cover"
+          className="!h-52 !w-full rounded-xl bg-top object-cover"
           src={value}
           value={value}
           name="imageUrl"
