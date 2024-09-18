@@ -53,7 +53,7 @@ export function MyPagination({ setSkip, total, pageCount, skip }) {
                 if (prev + limit > total) {
                   return prev;
                 } else {
-                  return (prev += limit);
+                  return prev + limit;
                 }
               });
             }}

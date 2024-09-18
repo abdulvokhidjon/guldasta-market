@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAppStore } from "../lib/zustand";
-import { collectItem, limit } from "../lib/my-utils";
-import { getFlowers, refreshToken } from "../request";
+import { collectItem, getFormData, limit } from "../lib/my-utils";
+import { deleteFlower, getFlowers, refreshToken } from "../request";
 import { toast } from "sonner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import {
   Table,
   TableBody,
@@ -12,14 +19,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
-import { Button } from "../components/ui/button";
+import {
+  PlusIcon,
+  SymbolIcon,
+  UpdateIcon,
+  GridIcon,
+  TrashIcon,
+  Pencil1Icon,
+} from "@radix-ui/react-icons";
+import { Button, buttonVariants } from "../components/ui/button";
 import AddNewItemModal from "../components/AddNewItemModal";
 import { MyPagination } from "../components/MyPagination";
-import Filters from "../components/Filters";
+import FiltersByCategory from "../components/FiltersByCategory";
+import FiltersByCountry from "../components/FiltersByCountry";
+import FiltersByColor from "../components/FiltersByColor";
 
 export default function Home() {
-  const [category, setCategory] = useState("");
+  const [sendingData, setSendingData] = useState(null);
+  const [enableToFilter, setEnableToFilter] = useState(true);
+  const [isFiltered, setIsFiltered] = useState(null);
   const [skip, setSkip] = useState(0);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -29,9 +47,24 @@ export default function Home() {
   const setAdmin = useAppStore((state) => state.setAdmin);
   const setAddItemModal = useAppStore((state) => state.setAddItemModal);
 
+  const reset = () => {
+    setIsFiltered(null);
+    setEnableToFilter(true);
+  };
+
+  const handleEnableToFilter = () => {
+    setEnableToFilter(false);
+  };
+
+  const handleFilter = (e) => {
+    e.preventDefault();
+    const result = getFormData(e.target);
+    setIsFiltered(result);
+  };
+
   useEffect(() => {
     setLoading(true);
-    getFlowers(admin?.access_token, { skip, limit, category })
+    getFlowers(admin?.access_token, { skip, limit }, isFiltered)
       .then(({ data, total }) => {
         setTotal(total);
         setFlowers(data);
@@ -49,7 +82,13 @@ export default function Home() {
         }
       })
       .finally(() => setLoading(false));
-  }, [admin, skip, category]);
+  }, [admin, skip, isFiltered, sendingData]);
+
+  const handleDelete = (id) => {
+    deleteFlower(admin?.access_token, id)
+      .then(() => {})
+      .catch(() => {});
+  };
 
   return (
     <>
@@ -61,14 +100,36 @@ export default function Home() {
             <PlusIcon className="ml-2" />
           </Button>
         </div>
-        <div>
-          {flowers && (
-            <Filters
+        {flowers && (
+          <form onSubmit={handleFilter}>
+            <FiltersByCategory
               categories={collectItem(flowers, "category")}
-              setCategory={setCategory}
+              handleEnableToFilter={handleEnableToFilter}
             />
-          )}
-        </div>
+            <FiltersByCountry
+              countries={collectItem(flowers, "country")}
+              handleEnableToFilter={handleEnableToFilter}
+            />
+            <FiltersByColor
+              colors={collectItem(flowers, "color")}
+              handleEnableToFilter={handleEnableToFilter}
+            />
+
+            <div className="flex gap-2">
+              <Button
+                variant={"outline"}
+                onClick={reset}
+                type="reset"
+                disabled={enableToFilter}
+              >
+                Tozalash <SymbolIcon className="ml-2" />
+              </Button>
+              <Button type="submit" disabled={enableToFilter}>
+                Saralash <GridIcon className="ml-2" />
+              </Button>
+            </div>
+          </form>
+        )}
         <div>
           <Table>
             {flowers && (
@@ -83,6 +144,7 @@ export default function Home() {
                 <TableHead>Turkumi</TableHead>
                 <TableHead>Rangi</TableHead>
                 <TableHead className="text-right">Narxi</TableHead>
+                <TableHead className="text-right">Harakatlar</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -100,7 +162,40 @@ export default function Home() {
                         className="block h-4 w-4 rounded-full border"
                       ></span>
                     </TableCell>
-                    <TableCell className="text-right">$ {price}</TableCell>
+                    <TableCell className="text-right">{price} so'm</TableCell>
+                    <TableCell className="flex items-center justify-end gap-2 text-right">
+                      <TooltipProvider delayDuration="0">
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <span
+                              type="button"
+                              className={`${buttonVariants({ variant: "secondary", size: "icon" })}`}
+                            >
+                              <Pencil1Icon />
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Tahrirlash</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+
+                      <TooltipProvider delayDuration="0">
+                        <Tooltip>
+                          <TooltipTrigger onClick={() => handleDelete(id)}>
+                            <span
+                              type="button"
+                              className={`${buttonVariants({ variant: "destructive", size: "icon" })}`}
+                            >
+                              <TrashIcon />
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>O'chirish</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -124,7 +219,10 @@ export default function Home() {
         )}
       </div>
 
-      <AddNewItemModal />
+      <AddNewItemModal
+        sendingData={sendingData}
+        setSendingData={setSendingData}
+      />
     </>
   );
 }

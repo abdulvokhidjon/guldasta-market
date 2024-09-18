@@ -8,19 +8,34 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
+import { useState } from "react";
 
-export default function Filters({ categories, setCategory, category }) {
+export default function FiltersByCategory({
+  categories,
+  handleEnableToFilter,
+}) {
+  const [open, setOpen] = useState(false);
+
+  const handleFocus = () => {
+    setOpen(!open);
+  };
+
   return (
     <div className="mb-5">
       <div className="">
-        <Label>Saralash</Label>
-        <Select value={category} onValueChange={(value) => setCategory(value)}>
+        <Label onClick={handleFocus}>Turkumlash</Label>
+        <Select
+          open={open}
+          onValueChange={handleEnableToFilter}
+          onOpenChange={handleFocus}
+          name="category"
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Turkum bo'yicha" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Turkumlar bo'yicha</SelectLabel>
+              <SelectLabel>Turkumlar</SelectLabel>
               {categories.map((category) => {
                 return (
                   <SelectItem key={category} value={category}>

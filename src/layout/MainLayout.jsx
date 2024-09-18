@@ -1,17 +1,19 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function Mainlayout() {
   return (
     <>
-      <Header />
-      <Navbar />
+      <header className="sticky top-0 z-10 bg-slate-100">
+        <Navbar />
+      </header>
       <main>
         <Outlet />
       </main>
-      <Footer />
+      <div className="sticky bottom-0 z-10 bg-slate-100">
+        <Footer />
+      </div>
     </>
   );
 }

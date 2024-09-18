@@ -1,11 +1,10 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Navigate } from "react-router-dom";
 
-export default function ProtectRoutes({ admin, children }) {
+export default function ProtectedRoutes({ children, admin }) {
   if (admin) {
     return (
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         {children}
       </ThemeProvider>
     );
