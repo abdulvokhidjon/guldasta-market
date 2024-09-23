@@ -61,7 +61,7 @@
     @apply border-border;
   }
   body {
-    @apply flex h-full flex-col bg-background text-foreground;
+    @apply flex h-full flex-col overflow-hidden bg-background text-foreground;
   }
 
   html {
@@ -92,7 +92,6 @@
   .h4 {
     @apply text-xl font-semibold tracking-tight;
   }
-
   #flowerImage {
     animation: bloom 4s ease-in-out infinite;
     transition: transform 0.3s ease;

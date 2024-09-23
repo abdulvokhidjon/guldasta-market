@@ -16,11 +16,11 @@ export const refreshToken = async (token) => {
   } else {
     throw new Error("Nimadir hatolik bo'ldi");
   }
-
-  console.log(res);
 };
 
 export const login = async (data) => {
+  console.log("data", data);
+
   const res = await fetch(BASE_URL + "/auth/login", {
     method: "POST",
     headers: {
@@ -28,6 +28,8 @@ export const login = async (data) => {
     },
     body: JSON.stringify(data),
   });
+
+  console.log("res: ", res);
 
   if (res.status === 200 || res.status === 201) {
     return await res.json();
@@ -101,15 +103,37 @@ export const sendFlower = async (token, flower) => {
 };
 
 export const deleteFlower = async (token, id) => {
+  console.log("deletedID", id, BASE_URL + "/flowers/" + id);
+
   const res = await fetch(BASE_URL + "/flowers/" + id, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
   });
 
   if (res.status === 200 || res.status === 201) {
     return "Ma'lumot muvaffaqiyatli o'chirildi";
+  } else if (res.status === 403) {
+    throw new Error("403");
+  } else {
+    throw new Error("Nimadir hato ketti!");
+  }
+};
+
+export const editFlower = async (token, flower) => {
+  const res = await fetch(BASE_URL + "/flowers/" + flower.id, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(flower),
+  });
+
+  if (res.status === 200 || res.status === 201) {
+    return "Ma'lumot muvaffaqiyatli yangilandi";
   } else if (res.status === "403") {
     throw new Error("403");
   } else {

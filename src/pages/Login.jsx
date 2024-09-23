@@ -7,7 +7,6 @@ import { UpdateIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useAppStore } from "../lib/zustand";
-// import loginFlower from "/flowerImage.avif";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -19,6 +18,7 @@ export default function Login() {
     e.preventDefault();
     const result = getFormData(e.target);
     setLoading(true);
+    console.log("result: ", result);
 
     login(result)
       .then((res) => {

@@ -8,6 +8,8 @@ import ProtectedRoutes from "./layout/ProtectedRoutes";
 import Home from "./pages/Home";
 import Mainlayout from "./layout/MainLayout";
 import { useAppStore } from "./lib/zustand";
+import Statistics from "./pages/Statistics";
+import Admins from "./pages/Admins";
 
 export default function App() {
   const admin = useAppStore((state) => state.admin);
@@ -24,6 +26,14 @@ export default function App() {
         {
           index: true,
           element: <Home />,
+        },
+        {
+          path: "statistics",
+          element: <Statistics />,
+        },
+        {
+          path: "admins",
+          element: <Admins />,
         },
       ],
     },
